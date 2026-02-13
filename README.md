@@ -89,3 +89,6 @@ Dependencias  entre objetos
 ### === Modifiqué ===
 
 Relaciones entre clases, pues ahora respetan totalmente composición, agregación y dependencia
+
+
+"* Durante algún tiempo, no pude actualizar los archivos hasta hece poco, por ello es que la hora que indica en que momento se guardaron y cuando se subieron no concuerda del todo"
