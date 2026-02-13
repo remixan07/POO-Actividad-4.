@@ -1,18 +1,19 @@
-import java.util.Scanner;
-
 public class POO_Actividad_4 {
 
     public static void main(String[] args) {
 
-        Subject s1 = new Subject("Math","M1",5,10);
-        Subject s2 = new Subject("Physics","P1",6,8);
-        Subject s3 = new Subject("Programming","PR1",7,12);
+        Subject subject1 = new Subject("Math", "M101", 7, 20);
+        Subject subject2 = new Subject("Physics", "P202", 6, 15);
+        Subject subject3 = new Subject("Programming", "PR303", 5, 18);
 
-        Course c = new Course("Semester 1", s1, s2, s3);
-        Student st = new Student("ID1","Carlos",19,c);
-        Professor p = new Professor("Dr. Smith","N1",500,s1);
+        Course course = new Course("Semester 1", subject1, subject2, subject3);
 
-        System.out.println("Credits: " + c.calculateTotalCredits());
+        Student student = new Student("ST12345", "Carlos", 19, course);
+
+        Professor professor = new Professor("Dr. Smith", "N1234", 500, subject1);
+
+        System.out.println("Total Credits: " + course.calculateTotalCredits());
+        System.out.println("Weekly Salary: " + professor.calculateWeeklySalary());
     }
 }
 
@@ -23,62 +24,78 @@ class Subject {
     private int credits;
     private int weeklyHours;
 
-    public Subject(String name,String code,int credits,int weeklyHours){
-        this.name=name;
-        this.code=code;
-        this.credits=credits;
-        this.weeklyHours=weeklyHours;
+    public Subject(String name, String code, int credits, int weeklyHours) {
+        this.name = name;
+        this.code = code;
+        this.credits = credits;
+        this.weeklyHours = weeklyHours;
     }
 
-    public int getCredits(){ return credits; }
-    public int getWeeklyHours(){ return weeklyHours; }
+    public Subject(Subject s) {
+        this.name = s.name;
+        this.code = s.code;
+        this.credits = s.credits;
+        this.weeklyHours = s.weeklyHours;
+    }
+
+    public int getCredits() { return credits; }
+    public int getWeeklyHours() { return weeklyHours; }
 }
 
 class Course {
 
     private String name;
-    private Subject s1,s2,s3;
+    private Subject subject1, subject2, subject3;
 
-    public Course(String name,Subject s1,Subject s2,Subject s3){
-        this.name=name;
-        this.s1=s1;
-        this.s2=s2;
-        this.s3=s3;
+    public Course(String name, Subject subject1, Subject subject2, Subject subject3) {
+        this.name = name;
+        this.subject1 = new Subject(subject1);  // ✔ deep copy
+        this.subject2 = new Subject(subject2);
+        this.subject3 = new Subject(subject3);
     }
 
-    public int calculateTotalCredits(){
-        return s1.getCredits()+s2.getCredits()+s3.getCredits();
+    public Course(Course c) {
+        this.name = c.name;
+        this.subject1 = new Subject(c.subject1);
+        this.subject2 = new Subject(c.subject2);
+        this.subject3 = new Subject(c.subject3);
+    }
+
+    public int calculateTotalCredits() {
+        return subject1.getCredits() + subject2.getCredits() + subject3.getCredits();
     }
 }
 
 class Student {
+
     private String id;
     private String name;
     private int age;
     private Course course;
 
-    public Student(String id,String name,int age,Course course){
-        this.id=id;
-        this.name=name;
-        this.age=age;
-        this.course=course;
+    public Student(String id, String name, int age, Course course) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.course = course; // ❌ still no deep copy
     }
 }
 
 class Professor {
+
     private String name;
-    private String payroll;
+    private String payrollNumber;
     private double salaryPerHour;
     private Subject subject;
 
-    public Professor(String name,String payroll,double salaryPerHour,Subject subject){
-        this.name=name;
-        this.payroll=payroll;
-        this.salaryPerHour=salaryPerHour;
-        this.subject=subject;
+    public Professor(String name, String payrollNumber, double salaryPerHour, Subject subject) {
+        this.name = name;
+        this.payrollNumber = payrollNumber;
+        this.salaryPerHour = salaryPerHour;
+        this.subject = subject; // ❌ no deep copy
     }
 
-    public double calculateWeeklySalary(){
-        return salaryPerHour*10;
+    public double calculateWeeklySalary() {
+        return salaryPerHour * subject.getWeeklyHours();
     }
 }
