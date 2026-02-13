@@ -24,7 +24,7 @@ Implementé constructores simples y métodos básicos de cálculo
 
 ### === Añadí ===
 
-Clases `Student`, `Professor`, `Subject`, `Course`
+Clases Student, Professor, Subject, Course
 
 Atributos principales de cada entidad
 
